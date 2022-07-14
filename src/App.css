@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+.hover-button .hover-button--on,
+.hover-button:hover .hover-button--off {
+  display: none;
+}
+
+.hover-button:hover .hover-button--on {
+  display: inline;
+}
+button {
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
