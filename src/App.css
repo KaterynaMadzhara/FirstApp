@@ -1,9 +1,9 @@
 .App {
   text-align: center;
 }
-
+body {background-color: #282c34}
 .App-logo {
-  height: 40vmin;
+  height: 20vmin;
   pointer-events: none;
 }
 
@@ -15,17 +15,13 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 3vmin);
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {
@@ -46,6 +42,45 @@
 }
 button {
   border: none;
-  background-color: transparent;
+  background-color:transparent;
+  outline: none;}
+
+.button-submit {
+  border: none;
+  background-color: #00CB79;
   outline: none;
+  font-size: 20px;
+}
+input {
+  box-sizing: border-box;
+  border: 1px solid #E6E6E6;
+  border-radius: 50px;
+  color: #333333;
+  font-size: 20px;}
+
+form {
+  background-color: transparent;
+}
+.wrapper {
+  height: 10vmin;
+}
+
+.arrow {
+  width: 200px;
+  position: absolute;
+  bottom: 40px;
+  left: calc(50% - 100px);
+  animation: arrowDown 2s infinite;
+}
+
+@keyframes arrowDown {
+  0% {
+    bottom: 200px;
+  }
+  50% {
+    bottom: 100px;
+  }
+  100% {
+    bottom: 200px;
+  }
 }
