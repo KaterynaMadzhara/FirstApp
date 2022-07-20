@@ -1,36 +1,18 @@
 import React from "react";
-import {Link, useParams}
-    from "react-router-dom";
-import background from '../img/confetee.png'
+import {Link, useParams} from "react-router-dom";
 
 function RegisteredPage() {
-    const {id} = useParams();
+  const {id} = useParams();
 
-    return (
-        <div style={{
-            backgroundImage: `url(${background})`,
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            backgroundRepeat: 'no-repeat',
-            width: '100vw',
-            height: '100vh'}}>
-            <h1 style={{
-                textAlign: 'center',
-                position: 'fixed',
-                top: '30%',
-                left: '10%'
-            }}>
-                Вітаю Вельми шановний, { id } ви зареєстрованні на найцікавіший івент, що взагалі може бути
-            </h1>
-            <h2 style={{
-                textAlign: 'center',
-                position: 'fixed',
-                top: '40%',
-                left: '40%'
-            }}>
-                <Link to='/' style={{color: "rgb(119, 120, 110)", background: 'yellow'}}>Повернутись на домашню сторінку</Link>
-            </h2>
-        </div>
-    );
+  return (
+    <div className='div-registered'>
+      <h1 className='h1-registered'>
+        Вітаю Вельми шановний, { id } ви зареєстрованні на найцікавіший івент, що взагалі може бути
+      </h1>
+      <h2 className='h2-registered'>
+        <Link to='/' className='back-link'>Повернутись на домашню сторінку</Link>
+      </h2>
+    </div>
+  );
 }
 export {RegisteredPage};
