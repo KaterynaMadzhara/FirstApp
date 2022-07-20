@@ -1,5 +1,9 @@
 import React, {useState} from "react";
- function RegisterUser({onCreate}) {
+
+import {Link}
+    from "react-router-dom";
+
+ function RegisterUser({onCreate},) {
      const [value, setValue] = useState()
      function submitRegistration(event) {
          event.preventDefault()
@@ -7,14 +11,17 @@ import React, {useState} from "react";
              onCreate(value)
              setValue('')
          }
-
      }
 
-     return (
-         <form onSubmit={submitRegistration}>
+     return (<>
+         <form onSubmit={ submitRegistration }>
              <input placeholder="Імʼя" value={value} onChange={event => setValue(event.target.value)}/>
-             <button className='button-submit' type="submit">Зареєструватися</button>
+             <Link to={`/registered/${value}`}>
+                 <button className='button-submit' type="submit">Зареєструватися</button>
+             </Link>
+
          </form>
+         </>
      )
  }
  export default RegisterUser
