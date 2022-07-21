@@ -14,9 +14,9 @@ function RegisterUser({onCreate},) {
   return (
     <>
       <form onSubmit={ submitRegistration }>
-        <input placeholder="Імʼя" value={value} onChange={event => setValue(event.target.value)}/>
+        <input placeholder='Імʼя' value={value} onChange={event => setValue(event.target.value)}/>
         <Link to={`/registered/${value}`}>
-          <button className='button-submit' type="submit">Зареєструватися</button>
+          <button className='button-submit' type='submit'>Зареєструватися</button>
         </Link>
       </form>
     </>
