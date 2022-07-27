@@ -24,14 +24,15 @@ function RegisterUser({ onCreate }) {
       username: 'Імʼя',
       usersurname: 'Прізвище'
     }
-    for (const property in values){
-    if (!values[property]) {
-      errors[property] = `Введіть будь ласка ${wordMapping[property]}`
-    } else if (!values[property].trim()) {
-      errors[property] = `${wordMapping[property]} не може буди із пустих символів`
-    } else if (values[property].length > 30) {
-      errors[property] = `${wordMapping[property]} має бути менше 30 символів`
-    }}
+    for (const property in values) {
+      if (!values[property]) {
+        errors[property] = `Введіть будь ласка ${ wordMapping[property] }`
+      } else if (!values[property].trim()) {
+        errors[property] = `${ wordMapping[property] } не може буди із пустих символів`
+      } else if (values[property].length > 30) {
+        errors[property] = `${ wordMapping[property] } має бути менше 30 символів`
+      }
+    }
     return errors;
   }
   const handleChange = (e) => {
