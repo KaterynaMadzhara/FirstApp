@@ -45,10 +45,12 @@ button {
   outline: none;
 }
 .button-submit {
-  border: none;
+  box-sizing: border-box;
+  border-radius: 50px;
   background-color: #00CB79;
   outline: none;
   font-size: 20px;
+  margin: 15px 0 15px 0;
 }
 input {
   box-sizing: border-box;
@@ -56,6 +58,7 @@ input {
   border-radius: 50px;
   color: #333333;
   font-size: 20px;
+  margin: 0px 0 5px 0;
 }
 form {
   background-color: transparent;

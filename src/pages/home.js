@@ -3,10 +3,10 @@ import logo1 from "../img/img_1.png";
 import logo2 from "../img/img_2.png";
 import arrow from "../img/arrow.png";
 import "../App.css";
-import React, {useState} from "react";
-import {RegisterUser} from "../components/RegisterUser"
-import {Route, Routes} from "react-router-dom";
-import {RegisteredPage} from "./registeredPage";
+import React, { useState } from "react";
+import { RegisterUser } from "../components/RegisterUser"
+import { Route, Routes } from "react-router-dom";
+import { RegisteredPage } from "./registeredPage";
 
 function Home() {
   const [isActive, setIsActive] = useState(false);
@@ -22,7 +22,7 @@ function Home() {
           <button class='hover-button--off' >
             <img src={logo} className='App-logo' alt='logo' />
           </button>
-          <button className='hover-button--on' onClick={()=> handleClick()}>
+          <button className='hover-button--on' onClick={ ()=> handleClick() }>
             <img src={isActive? logo2: logo1}  className='App-logo' alt='logo'/>
           </button>
         </div>
@@ -31,12 +31,12 @@ function Home() {
       <div className='wrapper'>
         <img className='arrow' src={arrow} alt=''/>
       </div>
-      <RegisterUser onCreate={RegisteredPage}/>
+      <RegisterUser onCreate={ RegisteredPage }/>
       <Routes>
-        <Route path='/registered/' element={<RegisteredPage />}/>
+        <Route path='/registered/' element={ <RegisteredPage /> }/>
       </Routes>
     </div>
   );
 }
 
-export {Home};
+export { Home };
