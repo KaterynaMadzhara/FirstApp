@@ -31,7 +31,7 @@ function Home() {
       <div className='wrapper'>
         <img className='arrow' src={arrow} alt=''/>
       </div>
-      <RegisterUser onCreate={ RegisteredPage }/>
+      <RegisterUser />
       <Routes>
         <Route path='/registered/' element={ <RegisteredPage /> }/>
       </Routes>

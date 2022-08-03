@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function RegisterUser({ onCreate }) {
+function RegisterUser() {
   const initialValues = { username: '', usersurname: '' }
   const [formValues, setFormValues] = useState(initialValues)
   const [errors, setErrors] = useState({})
