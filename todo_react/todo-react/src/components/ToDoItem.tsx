@@ -3,27 +3,27 @@ import {ITodo} from "../models";
 
 interface TodoProps {
     todo: ITodo
-    deleteTodo: (todo: ITodo) => void
-    doneTodo: (todo: ITodo) => void
-    editTodo: (todo: ITodo, value: string) => void
+    deleteTodo: (todoId: number) => void
+    doneTodo: (todoId: number) => void
+    editTodo: (todoId: number, value: string) => void
 }
 
 export function ToDoItem(props: TodoProps) {
-    const [edit, setEdit] = useState(false)
+    const [isEditing, setIsEditing] = useState(false)
     const [value, setValue] = useState<string>(props.todo.title)
     const editTitleInputRef = useRef<HTMLInputElement>(null)
     const onClick = (value: string) => {
-        props.editTodo(props.todo, value)
-        setEdit(false)
+        props.editTodo(props.todo.id, value)
+        setIsEditing(false)
     }
     useEffect(() => {
-        if (edit) {
+        if (isEditing) {
             editTitleInputRef?.current?.focus()
         }
-    }, [edit])
+    }, [isEditing])
     return (
         <div>
-            {edit ?
+            {isEditing ?
                 <div className="task">
                     <input className="text"
                            id="edit-text"
@@ -40,12 +40,12 @@ export function ToDoItem(props: TodoProps) {
                            style={{textDecoration: props.todo.completed ? 'line-through' : 'none'}}
                            value={props.todo.title}
                            readOnly/>
-                    <input type="checkbox" onChange={() => props.doneTodo(props.todo)}/>
+                    <input type="checkbox" onChange={() => props.doneTodo(props.todo.id)}/>
                     <button onClick={() => {
-                        setEdit(true)
+                        setIsEditing(true)
                     }}>edit
                     </button>
-                    <button onClick={() => props.deleteTodo(props.todo)}>delete</button>
+                    <button onClick={() => props.deleteTodo(props.todo.id)}>delete</button>
                 </div>}
         </div>
     )
