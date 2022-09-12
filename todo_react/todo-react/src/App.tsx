@@ -3,6 +3,7 @@ import './App.css';
 import {AddToDo} from "./components/AddToDo";
 import {ToDoItem} from "./components/ToDoItem";
 import {ITodo} from "./models";
+import {TodosContext} from "./context"
 
 export const App: React.FC = () => {
     let todoList = [...JSON.parse(localStorage.getItem('TodoList') || "")]
@@ -49,8 +50,9 @@ export const App: React.FC = () => {
             <h2>Tasks</h2>
             <p className="empty">{todoList.length === 0 ? "No ToDos added" : ""}</p>
             {todoList.map(todo => {
-                return <ToDoItem todo={todo} key={todo.id} doneTodo={doneTodo} deleteTodo={deleteTodo}
-                                 editTodo={editTodo}/>
+                return <TodosContext.Provider value={{todos, deleteTodo, doneTodo, editTodo}}>
+                <ToDoItem todo={todo} key={todo.id}/>
+                </TodosContext.Provider>
             })}
         </div>
     );

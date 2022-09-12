@@ -1,19 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {ITodo} from "../models";
-
+import {TodosContext} from "../context"
 interface TodoProps {
     todo: ITodo
-    deleteTodo: (todoId: number) => void
-    doneTodo: (todoId: number) => void
-    editTodo: (todoId: number, value: string) => void
 }
-
 export function ToDoItem(props: TodoProps) {
     const [isEditing, setIsEditing] = useState(false)
-    const [value, setValue] = useState<string>(props.todo.title)
+    const [editableTitle, setEditableTitle] = useState<string>(props.todo.title)
     const editTitleInputRef = useRef<HTMLInputElement>(null)
+    const todosContext = useContext(TodosContext)
     const onClick = (value: string) => {
-        props.editTodo(props.todo.id, value)
+        todosContext.editTodo(props.todo.id, value)
         setIsEditing(false)
     }
     useEffect(() => {
@@ -27,12 +24,12 @@ export function ToDoItem(props: TodoProps) {
                 <div className="task">
                     <input className="text"
                            id="edit-text"
-                           value={value}
+                           value={editableTitle}
                            ref={editTitleInputRef}
                            onChange={(e) => {
-                               setValue(e.target.value)
+                               setEditableTitle(e.target.value)
                            }}/>
-                    <button onClick={() => onClick(value)}>save</button>
+                    <button onClick={() => onClick(editableTitle)}>save</button>
                 </div>
                 :
                 <div className="task">
@@ -40,12 +37,12 @@ export function ToDoItem(props: TodoProps) {
                            style={{textDecoration: props.todo.completed ? 'line-through' : 'none'}}
                            value={props.todo.title}
                            readOnly/>
-                    <input type="checkbox" onChange={() => props.doneTodo(props.todo.id)}/>
+                    <input type="checkbox" onChange={() => todosContext.doneTodo(props.todo.id)}/>
                     <button onClick={() => {
                         setIsEditing(true)
                     }}>edit
                     </button>
-                    <button onClick={() => props.deleteTodo(props.todo.id)}>delete</button>
+                    <button onClick={() => todosContext.deleteTodo(props.todo.id)}>delete</button>
                 </div>}
         </div>
     )
