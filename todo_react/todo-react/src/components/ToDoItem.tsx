@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
 import {ITodo} from "../models";
-import {useTodoContext} from "../context/context"
+import {useTodoDispatch} from "../context/context"
 
 interface TodoProps {
     todo: ITodo
@@ -9,7 +9,15 @@ interface TodoProps {
 export function ToDoItem(props: TodoProps) {
     const editTitleInputRef = useRef<HTMLInputElement>(null)
     const [isEditing, setIsEditing] = useState(false)
-    const todosContext = useTodoContext()
+    const [editableTitle, setEditableTitle] = useState<string>(props.todo.title);
+    let dispatch = useTodoDispatch()
+    const onEditClick = (title: string) => {
+        setEditableTitle(title)
+        setIsEditing(true)
+    }
+    const onEditChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setEditableTitle(event.target.value)
+    }
     useEffect(() => {
         if (isEditing) {
             editTitleInputRef?.current?.focus()
@@ -21,11 +29,16 @@ export function ToDoItem(props: TodoProps) {
                 <div className="task">
                     <input className="text"
                            id="edit-text"
-                           value={todosContext.editableTitle}
+                           value={editableTitle}
                            ref={editTitleInputRef}
-                           onChange={todosContext.onEditChange}/>
+                           onChange={onEditChange}/>
                     <button onClick={() => {
-                        todosContext.editTodo(props.todo.id, todosContext.editableTitle);
+                        dispatch({
+                            type: "changed",
+                            id: props.todo.id,
+                            completed: props.todo.completed,
+                            title: editableTitle
+                        });
                         setIsEditing(false)
                     }}>save
                     </button>
@@ -36,18 +49,24 @@ export function ToDoItem(props: TodoProps) {
                            style={{textDecoration: props.todo.completed ? 'line-through' : 'none'}}
                            value={props.todo.title}
                            readOnly/>
-                    {props.todo.completed ?
-                        <input type="checkbox" onChange={() => todosContext.doneTodo(props.todo.id)} checked/>
-                        :
-                        <input type="checkbox" onChange={() => todosContext.doneTodo(props.todo.id)}/>
-                    }
-                    <button onClick={() => {
-                        todosContext.onEditClick(props.todo.title);
-                        setIsEditing(true)
+                    <input type="checkbox" onChange={() => dispatch({
+                        type: "changed",
+                        id: props.todo.id,
+                        completed: !props.todo.completed,
+                        title: editableTitle
+                    })}
+                        checked ={props.todo.completed}/>
+                        <button onClick={() => {
+                        onEditClick(props.todo.title);
                     }}>edit
-                    </button>
-                    <button onClick={() => todosContext.deleteTodo(props.todo.id)}>delete</button>
-                </div>}
-        </div>
-    )
-}
+                        </button>
+                        <button onClick={() =>  dispatch({
+                            type: "deleted",
+                            id: props.todo.id,
+                            completed: props.todo.completed,
+                            title: editableTitle
+                        })}>delete</button>
+                        </div>}
+                </div>
+                )
+            }
