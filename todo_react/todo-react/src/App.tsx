@@ -1,12 +1,17 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {AddToDo} from "./components/AddToDo";
 import {ToDoItem} from "./components/ToDoItem";
 import {useTodoContext} from "./context/context";
 
 export const App: React.FC = () => {
-    const todos = useTodoContext()
-    console.log(todos)
+    const todosContext = useTodoContext()
+    useEffect(() => {
+        window.addEventListener('storage', () => {
+            console.log("change to local storage!");
+            todosContext.setTodos(JSON.parse(localStorage.getItem('TodoList') || '[]'))
+        })
+    }, [todosContext.setTodos])
 
     return (
         <div>
@@ -15,8 +20,8 @@ export const App: React.FC = () => {
                 <AddToDo/>
             </header>
             <h2>Tasks</h2>
-            <p className="empty">{todos.length === 0 ? "No ToDos added" : ""}</p>
-            {todos.map(todo => {
+            <p className="empty">{todosContext.todoList.length === 0 ? "No ToDos added" : ""}</p>
+            {todosContext.todoList.map(todo => {
                 return <ToDoItem todo={todo} key={todo.id}/>
             })}
         </div>
