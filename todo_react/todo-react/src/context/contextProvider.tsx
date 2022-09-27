@@ -1,81 +1,65 @@
-import React, {ChangeEvent, FC, PropsWithChildren, useState} from "react";
-import {ITodo} from "../models";
-import {TodosContextModel, TodoContext} from "./context";
+import React, {PropsWithChildren, useEffect, useReducer} from "react";
+import {IAction, ITodo} from "../models";
+import {TodoContext, TodoContextModel} from "./context";
 
 export const TodoContextProvider: React.FC<PropsWithChildren> = ({children}) => {
-    let todoList = JSON.parse(localStorage.getItem('TodoList') || '[]')
-    const [todos, setTodos] = useState<ITodo[]>(() => todoList)
-    const [currentTitle, setCurrentTitle] = useState<string>("")
-    const [error, setError] = useState<string>("")
-    const [editableTitle, setEditableTitle] = useState<string>("")
-    const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setCurrentTitle(event.target.value)
-    }
-    const onClick = (event: any) => {
-        event.preventDefault()
-        if (!currentTitle || !currentTitle.trim()) {
-            setError("Please, enter valid value")
-            return
+    const TODOS_LOCALSTORAGE_KEY = "TodoList"
+    const getLocalstorageTodoList = () => {
+        return JSON.parse(localStorage.getItem(TODOS_LOCALSTORAGE_KEY) || "[]")
+    };
+    useEffect(() => {
+        window.addEventListener('storage', () => {
+            dispatch({type: "localstorage_changed"});
+        })
+        return () => {
+            window.removeEventListener('storage', () => {
+                dispatch({type: "localstorage_changed"});
+            })
+        };
+    }, []);
+    const todosReducer = (todos: ITodo[], action: IAction) => {
+        switch (action.type) {
+            case 'added': {
+                return [...todos, {
+                    id: Math.floor(Math.random() * 100),
+                    title: action.title,
+                    completed: false
+                }];
+            }
+            case 'changed': {
+                return todos.map(t => {
+                    if (t.id === action.id) {
+                        return {
+                            id: action.id,
+                            completed: action.completed,
+                            title: action.title
+                        };
+                    } else {
+                        return t;
+                    }
+                });
+            }
+            case 'deleted': {
+                return todos.filter(t => t.id !== action.id);
+            }
+            case 'localstorage_changed': {
+                return getLocalstorageTodoList();
+            }
+            default: {
+                throw Error('Unknown action: ' + action.type);
+            }
         }
-        addTodo({id: Math.floor(Math.random() * 100), completed: false, title: currentTitle})
-        setCurrentTitle("")
-        setError("")
-    }
-    const saveToDos = (todos: ITodo[]) => {
-        setTodos(todos)
-        localStorage.setItem('TodoList', JSON.stringify(todos))
-    }
-    const addTodo = (todo: ITodo) => {
-        const newTodos = [...todos, todo]
-        saveToDos(newTodos)
-    }
-    const deleteTodo = (todoId: number) => {
-        const newTodos = todos.filter(todoEl => todoId !== todoEl.id)
-        saveToDos(newTodos)
-    }
-    const doneTodo = (todoId: number) => {
-        const newTodos = todos.map(todoEl => {
-            let newEl = {...todoEl}
-            if (todoId === newEl.id) {
-                newEl.completed = !newEl.completed
-            }
-            return newEl
-        })
-        saveToDos(newTodos)
-    }
-    const editTodo = (todoId: number, value: string) => {
-        const newTodos = todos.map(todoEl => {
-            let newEl = {...todoEl}
-            if (todoId === newEl.id) {
-                newEl.title = value
-            }
-            return newEl
-        })
-        saveToDos(newTodos)
-    }
-    const onEditClick = (title: string) => {
-        setEditableTitle(title)
-    }
-    const onEditChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setEditableTitle(event.target.value)
-    }
-    const contextValues: TodosContextModel = {
+    };
+    const [todos, dispatch] = useReducer(
+        todosReducer,
+        getLocalstorageTodoList());
+    useEffect(() => {
+        localStorage.setItem(TODOS_LOCALSTORAGE_KEY, JSON.stringify(todos));
+    }, [todos]);
+    const contextValues: TodoContextModel = {
         todos,
-        todoList,
-        currentTitle,
-        error,
-        editableTitle,
-        setTodos,
-        addTodo,
-        deleteTodo,
-        doneTodo,
-        editTodo,
-        saveToDos,
-        onClick,
-        onChange,
-        onEditClick,
-        onEditChange
-    }
+        dispatch
+    };
     return (
         <TodoContext.Provider value={contextValues}>
             {children}
