@@ -1,5 +1,5 @@
 let key = "list";
-let todoArr = [];
+let toDoArr = [];
 
 window.addEventListener('load',() => {
     const form = document.querySelector('#new-task-form');
@@ -41,8 +41,8 @@ window.addEventListener('load',() => {
 
     const deleteTask = (taskItem) => {
         taskItem.task_elem_button.addEventListener('click', () => {
-            todoArr = JSON.parse(localStorage.getItem(key));
-            let deleteArr = todoArr.filter(obj =>
+            toDoArr = JSON.parse(localStorage.getItem(key));
+            let deleteArr = toDoArr.filter(obj =>
                 obj.id.toString() !== taskItem.task_elem.id
             )
             localStorage.setItem(key, JSON.stringify(deleteArr))
@@ -53,8 +53,8 @@ window.addEventListener('load',() => {
     const doneTask = (taskItem) => {
         taskItem.task_elem_input.addEventListener('click', () => {
             taskItem.task_elem_input_p.classList.toggle('done');
-            todoArr = JSON.parse(localStorage.getItem(key));
-            let newArr = todoArr.map(obj => {
+            toDoArr = JSON.parse(localStorage.getItem(key));
+            let newArr = toDoArr.map(obj => {
                 if (obj.id.toString() === taskItem.task_elem.id) {
                     obj.done = !obj.done
                 }
@@ -65,8 +65,8 @@ window.addEventListener('load',() => {
     }
 
     if(localStorage.getItem(key)) {
-        todoArr = JSON.parse(localStorage.getItem(key));
-        for (const obj of todoArr) {
+        toDoArr = JSON.parse(localStorage.getItem(key));
+        for (const obj of toDoArr) {
             let tasksItem = createEl();
             tasksItem.task_elem.id = obj.id;
             tasksItem.task_elem_input_p.innerHTML = obj.name;
@@ -97,9 +97,9 @@ window.addEventListener('load',() => {
             }
             objectList.push(taskObj);
         }
-        createTaskObj(todoArr);
+        createTaskObj(toDoArr);
         taskItem.task_elem.setAttribute('id', id.toString());
-        localStorage.setItem(key, JSON.stringify(todoArr))
+        localStorage.setItem(key, JSON.stringify(toDoArr))
         input.value ="";
         doneTask(taskItem);
         deleteTask(taskItem, taskItem.task_elem)
