@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
-import {AddToDo} from "./components/AddToDo";
-import {ToDoItem} from "./components/ToDoItem";
+import {AddTodo} from "./components/AddTodo";
+import {TodoItem} from "./components/TodoItem";
 import {useTodoContext} from "./context/context";
 
 export const App: React.FC = () => {
@@ -11,12 +11,12 @@ export const App: React.FC = () => {
         <div>
             <header>
                 <h1>To Do List</h1>
-                <AddToDo/>
+                <AddTodo/>
             </header>
             <h2>Tasks</h2>
-            <p className="empty">{todos.length === 0 ? "No ToDos added" : ""}</p>
+            <p className="empty">{todos.length === 0 ? "No Todos added" : ""}</p>
             {todos.map(todo => {
-                return <ToDoItem todo={todo} key={todo.id}/>
+                return <TodoItem todo={todo} key={todo.id}/>
             })}
         </div>
     );

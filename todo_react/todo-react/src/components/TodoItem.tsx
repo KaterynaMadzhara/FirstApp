@@ -6,7 +6,7 @@ interface TodoProps {
     todo: ITodo
 };
 
-export function ToDoItem(props: TodoProps) {
+export function TodoItem(props: TodoProps) {
     const editTitleInputRef = useRef<HTMLInputElement>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [editableTitle, setEditableTitle] = useState<string>(props.todo.title);

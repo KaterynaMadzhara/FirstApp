@@ -1,7 +1,7 @@
 import React, {ChangeEvent, useState} from "react";
 import {useTodoContext} from "../context/context";
 
-export const AddToDo: React.FC = () => {
+export const AddTodo: React.FC = () => {
     let {dispatch} = useTodoContext();
     const [currentTitle, setCurrentTitle] = useState<string>("");
     const [error, setError] = useState<string>("");
