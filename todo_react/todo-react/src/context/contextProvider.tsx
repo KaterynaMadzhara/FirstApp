@@ -3,6 +3,10 @@ import {IAction, ITodo} from "../models";
 import {TodoContext, TodoContextModel} from "./context";
 
 export const TodoContextProvider: React.FC<PropsWithChildren> = ({children}) => {
+    const TODOS_LOCALSTORAGE_KEY = "TodoList"
+    const getLocalstorageTodoList = () => {
+        return JSON.parse(localStorage.getItem(TODOS_LOCALSTORAGE_KEY) || "[]")
+    };
     useEffect(() => {
         window.addEventListener('storage', () => {
             dispatch({type: "localstorage_changed"});
@@ -12,8 +16,7 @@ export const TodoContextProvider: React.FC<PropsWithChildren> = ({children}) => 
                 dispatch({type: "localstorage_changed"});
             })
         };
-    }, [])
-
+    }, []);
     const todosReducer = (todos: ITodo[], action: IAction) => {
         switch (action.type) {
             case 'added': {
@@ -40,19 +43,18 @@ export const TodoContextProvider: React.FC<PropsWithChildren> = ({children}) => 
                 return todos.filter(t => t.id !== action.id);
             }
             case 'localstorage_changed': {
-                return JSON.parse(localStorage.getItem('TodoList') || '[]');
+                return getLocalstorageTodoList();
             }
             default: {
                 throw Error('Unknown action: ' + action.type);
             }
         }
-    }
-    const initialTodos = JSON.parse(localStorage.getItem('TodoList') || '[]');
+    };
     const [todos, dispatch] = useReducer(
         todosReducer,
-        initialTodos);
+        getLocalstorageTodoList());
     useEffect(() => {
-        localStorage.setItem('TodoList', JSON.stringify(todos));
+        localStorage.setItem(TODOS_LOCALSTORAGE_KEY, JSON.stringify(todos));
     }, [todos]);
     const contextValues: TodoContextModel = {
         todos,

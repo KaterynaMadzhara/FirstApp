@@ -8,8 +8,7 @@ export const AddTodo: React.FC = () => {
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         setCurrentTitle(event.target.value);
     };
-    const onClick = (event: any) => {
-        event.preventDefault();
+    const onClick = () => {
         if (!currentTitle || !currentTitle.trim()) {
             setError("Please, enter valid value");
             return
