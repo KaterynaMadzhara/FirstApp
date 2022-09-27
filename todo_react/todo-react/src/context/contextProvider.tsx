@@ -18,7 +18,7 @@ export const TodoContextProvider: React.FC<PropsWithChildren> = ({children}) => 
         switch (action.type) {
             case 'added': {
                 return [...todos, {
-                    id: action.id,
+                    id: Math.floor(Math.random() * 100),
                     title: action.title,
                     completed: false
                 }];

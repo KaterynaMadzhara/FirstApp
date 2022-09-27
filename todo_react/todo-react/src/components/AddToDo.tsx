@@ -14,7 +14,7 @@ export const AddToDo: React.FC = () => {
             setError("Please, enter valid value");
             return
         }
-        dispatch({type: "added", id: Math.floor(Math.random() * 100), completed: false, title: currentTitle});
+        dispatch({type: "added", title: currentTitle});
         setCurrentTitle("");
         setError("");
     };
