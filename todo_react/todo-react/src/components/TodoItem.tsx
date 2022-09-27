@@ -26,7 +26,7 @@ export function TodoItem(props: TodoProps) {
     return (
         <div>
             {isEditing ?
-                <div className="task">
+                <div className="todo">
                     <input className="text"
                            id="edit-text"
                            value={editableTitle}
@@ -44,7 +44,7 @@ export function TodoItem(props: TodoProps) {
                     </button>
                 </div>
                 :
-                <div className="task">
+                <div className="todo">
                     <input className="text"
                            style={{textDecoration: props.todo.completed ? 'line-through' : 'none'}}
                            value={props.todo.title}

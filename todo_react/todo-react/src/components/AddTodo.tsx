@@ -19,15 +19,15 @@ export const AddTodo: React.FC = () => {
         setError("");
     };
     return <div>
-        <form className="new-task-form">
+        <form className="new-todo-form">
             <input type="text"
                    value={currentTitle}
                    onChange={onChange}
                    placeholder="What do you want to do?"
-                   className="new-task-input"
+                   className="new-todo-input"
             />
-            <button type="submit" onClick={onClick} className="new-task-submit">
-                Add task
+            <button type="submit" onClick={onClick} className="new-todo-submit">
+                Add todo
             </button>
         </form>
         <p className="error">{error}</p>

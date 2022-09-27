@@ -47,10 +47,10 @@ export const TodoContextProvider: React.FC<PropsWithChildren> = ({children}) => 
             }
         }
     }
-    const initialTodo = JSON.parse(localStorage.getItem('TodoList') || '[]');
+    const initialTodos = JSON.parse(localStorage.getItem('TodoList') || '[]');
     const [todos, dispatch] = useReducer(
         todosReducer,
-        initialTodo);
+        initialTodos);
     useEffect(() => {
         localStorage.setItem('TodoList', JSON.stringify(todos));
     }, [todos]);
