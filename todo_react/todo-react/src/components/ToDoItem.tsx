@@ -1,28 +1,28 @@
-import React, {ChangeEvent, useEffect, useRef, useState} from 'react';
+import React, {ChangeEvent, useEffect, useRef, useState} from "react";
 import {ITodo} from "../models";
-import {useTodoDispatch} from "../context/context"
+import {useTodoContext} from "../context/context";
 
 interface TodoProps {
     todo: ITodo
-}
+};
 
 export function ToDoItem(props: TodoProps) {
-    const editTitleInputRef = useRef<HTMLInputElement>(null)
-    const [isEditing, setIsEditing] = useState(false)
+    const editTitleInputRef = useRef<HTMLInputElement>(null);
+    const [isEditing, setIsEditing] = useState(false);
     const [editableTitle, setEditableTitle] = useState<string>(props.todo.title);
-    let dispatch = useTodoDispatch()
+    let {dispatch} = useTodoContext();
     const onEditClick = (title: string) => {
-        setEditableTitle(title)
-        setIsEditing(true)
-    }
+        setEditableTitle(title);
+        setIsEditing(true);
+    };
     const onEditChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setEditableTitle(event.target.value)
-    }
+        setEditableTitle(event.target.value);
+    };
     useEffect(() => {
         if (isEditing) {
-            editTitleInputRef?.current?.focus()
+            editTitleInputRef?.current?.focus();
         }
-    }, [isEditing])
+    }, [isEditing]);
     return (
         <div>
             {isEditing ?
@@ -55,18 +55,19 @@ export function ToDoItem(props: TodoProps) {
                         completed: !props.todo.completed,
                         title: editableTitle
                     })}
-                        checked ={props.todo.completed}/>
-                        <button onClick={() => {
+                           checked={props.todo.completed}/>
+                    <button onClick={() => {
                         onEditClick(props.todo.title);
                     }}>edit
-                        </button>
-                        <button onClick={() =>  dispatch({
-                            type: "deleted",
-                            id: props.todo.id,
-                            completed: props.todo.completed,
-                            title: editableTitle
-                        })}>delete</button>
-                        </div>}
-                </div>
-                )
-            }
+                    </button>
+                    <button onClick={() => dispatch({
+                        type: "deleted",
+                        id: props.todo.id,
+                        completed: props.todo.completed,
+                        title: editableTitle
+                    })}>delete
+                    </button>
+                </div>}
+        </div>
+    )
+}

@@ -1,12 +1,11 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 import {AddToDo} from "./components/AddToDo";
 import {ToDoItem} from "./components/ToDoItem";
 import {useTodoContext} from "./context/context";
 
 export const App: React.FC = () => {
-    const todos = useTodoContext()
-    console.log(todos)
+    const {todos} = useTodoContext();
 
     return (
         <div>

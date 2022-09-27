@@ -1,32 +1,30 @@
-import React, {PropsWithChildren, useEffect, useReducer, useState} from "react";
+import React, {PropsWithChildren, useEffect, useReducer} from "react";
 import {IAction, ITodo} from "../models";
-import {TodoDispatchContext, TodoContext} from "./context";
+import {TodoContext, TodoContextModel} from "./context";
 
 export const TodoContextProvider: React.FC<PropsWithChildren> = ({children}) => {
     useEffect(() => {
         window.addEventListener('storage', () => {
-            console.log("change to local storage!");
-            dispatch({type: "localstorage_changed",title:""})
+            dispatch({type: "localstorage_changed"});
         })
+        return () => {
+            window.removeEventListener('storage', () => {
+                dispatch({type: "localstorage_changed"});
+            })
+        };
     }, [])
 
-    const saveToDos = (todos: ITodo[]) => {
-        localStorage.setItem('TodoList', JSON.stringify(todos))
-    }
-
-    const tasksReducer = (todos: ITodo[], action: IAction) => {
+    const todosReducer = (todos: ITodo[], action: IAction) => {
         switch (action.type) {
             case 'added': {
-                let newTodos = [...todos, {
+                return [...todos, {
                     id: action.id,
                     title: action.title,
                     completed: false
                 }];
-                saveToDos(newTodos);
-                return newTodos;
             }
             case 'changed': {
-                let newTodos = todos.map(t => {
+                return todos.map(t => {
                     if (t.id === action.id) {
                         return {
                             id: action.id,
@@ -37,13 +35,9 @@ export const TodoContextProvider: React.FC<PropsWithChildren> = ({children}) => 
                         return t;
                     }
                 });
-                saveToDos(newTodos)
-                return newTodos;
             }
             case 'deleted': {
-                let newTodos = todos.filter(t => t.id !== action.id);
-                saveToDos(newTodos)
-                return newTodos;
+                return todos.filter(t => t.id !== action.id);
             }
             case 'localstorage_changed': {
                 return JSON.parse(localStorage.getItem('TodoList') || '[]');
@@ -53,16 +47,20 @@ export const TodoContextProvider: React.FC<PropsWithChildren> = ({children}) => 
             }
         }
     }
-    const initialTodo = JSON.parse(localStorage.getItem('TodoList') || '[]')
+    const initialTodo = JSON.parse(localStorage.getItem('TodoList') || '[]');
     const [todos, dispatch] = useReducer(
-        tasksReducer,
+        todosReducer,
         initialTodo);
-
+    useEffect(() => {
+        localStorage.setItem('TodoList', JSON.stringify(todos));
+    }, [todos]);
+    const contextValues: TodoContextModel = {
+        todos,
+        dispatch
+    };
     return (
-        <TodoContext.Provider value={todos}>
-            <TodoDispatchContext.Provider value={dispatch}>
-                {children}
-            </TodoDispatchContext.Provider>
+        <TodoContext.Provider value={contextValues}>
+            {children}
         </TodoContext.Provider>
     )
 }

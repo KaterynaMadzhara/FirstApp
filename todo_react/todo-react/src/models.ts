@@ -1,12 +1,12 @@
 export interface ITodo {
-    id?: number
-    completed?: boolean
+    id: number
+    completed: boolean
     title: string
 }
 
 export interface IAction {
-    type?: string
+    type: string
     id?: number
     completed?: boolean
-    title: string|""
+    title?: string
 }

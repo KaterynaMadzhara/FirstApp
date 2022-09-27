@@ -73,12 +73,12 @@ h2 {
     display: flex;
 }
 
-#new-task-form {
+.new-task-form {
     display: flex;
     justify-content: space-between;
 }
 
-#new-task-input {
+.new-task-input {
     flex: 1 1 0%;
     background-color: #1F2937;
     padding: 1rem;
@@ -88,7 +88,7 @@ h2 {
     font-size: 1.25rem;
 }
 
-#new-task-submit {
+.new-task-submit {
     cursor: pointer;
     color: white;
     font-size: 1.25rem;
@@ -97,11 +97,11 @@ h2 {
     border-radius: 1rem;
 }
 
-#new-task-submit:hover {
+.new-task-submit:hover {
     opacity: 0.8;
 }
 
-#new-task-submit:active {
+.new-task-submit:active {
     opacity: 0.6;
 }
 

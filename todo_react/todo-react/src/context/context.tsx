@@ -1,15 +1,16 @@
 import React, {createContext, useContext} from "react";
 import {ITodo, IAction} from "../models";
+interface TodoContextModel {
+    todos: ITodo[],
+    dispatch: (action: IAction) => void
+};
 
-const TodoContext = createContext<ITodo[]>([]);
-TodoContext.displayName = 'TodoContext';
+const TodoContext = createContext<TodoContextModel>({todos:[], dispatch:() => {}});
+TodoContext.displayName = "TodoContext";
 
-const TodoDispatchContext = createContext((action:IAction)=>{});
 const useTodoContext = () => useContext(TodoContext);
-const  useTodoDispatch = () => {
-    return useContext(TodoDispatchContext);
-}
-export {TodoContext, useTodoContext, TodoDispatchContext, useTodoDispatch};
+export {TodoContext, useTodoContext};
+export type {TodoContextModel};
 
 
 
